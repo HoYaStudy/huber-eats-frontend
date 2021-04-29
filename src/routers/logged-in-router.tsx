@@ -1,17 +1,21 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Header } from "../components/header";
 import { Restaurants } from "../pages/client/restaurants";
 import { useMe } from "../hooks/useMe";
+import { NotFound } from "../pages/404";
+import { ConfirmEmail } from "../pages/user/confirm-email";
+import { EditProfilePage } from "../pages/user/edit-profile";
 
 const ClientRoutes = [
-  <Route path="/" exact>
+  <Route key={1} path="/" exact>
     <Restaurants />
+  </Route>,
+  <Route key={2} path="/confirm" exact>
+    <ConfirmEmail />
+  </Route>,
+  <Route key={3} path="/edit-profile" exact>
+    <EditProfilePage />
   </Route>,
 ];
 
@@ -31,7 +35,9 @@ export const LoggedInRouter = () => {
       <Header />
       <Switch>
         {data.whoami.role === "Client" && ClientRoutes}
-        <Redirect to="/" />
+        <Route>
+          <NotFound />
+        </Route>
       </Switch>
     </Router>
   );
