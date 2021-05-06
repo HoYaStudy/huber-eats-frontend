@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { VerifyEmail, VerifyEmailVariables } from "../../types/VerifyEmail";
 import { useMe } from "../../hooks/useMe";
@@ -34,7 +35,7 @@ export const ConfirmEmail = () => {
       history.push("/");
     }
   };
-  const [verifyEmail] = useMutation<VerifyEmail, VerifyEmailVariables>(
+  const [VerifyEmail] = useMutation<VerifyEmail, VerifyEmailVariables>(
     VERIFY_EMAIL_MUTATION,
     { onCompleted }
   );
@@ -42,11 +43,14 @@ export const ConfirmEmail = () => {
   useEffect(() => {
     const [_, code] = window.location.href.split("code=");
 
-    verifyEmail({ variables: { input: { code } } });
-  }, [verifyEmail]);
+    VerifyEmail({ variables: { input: { code } } });
+  }, [VerifyEmail]);
 
   return (
     <div className="mt-52 flex flex-col justify-center items-center">
+      <Helmet>
+        <title>Verify Email | hUber Eats</title>
+      </Helmet>
       <h2 className="mb-1 text-lg font-medium">Confirming email...</h2>
       <h4 className="text-sm text-gray-700">
         Please wait, don't close this page.

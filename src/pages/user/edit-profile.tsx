@@ -1,10 +1,10 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { Button } from "../../components/button";
 import { useMe } from "../../hooks/useMe";
 import { EditProfile, EditProfileVariables } from "../../types/EditProfile";
-import { client } from "../../apollo";
 
 const EDIT_PROFILE_MUTATION = gql`
   mutation EditProfile($input: EditProfileInput!) {
@@ -64,6 +64,9 @@ export const EditProfilePage = () => {
 
   return (
     <div className="mt-52 flex flex-col justify-center items-center">
+      <Helmet>
+        <title>Edit Profile| hUber Eats</title>
+      </Helmet>
       <h4 className="mb-3 text-2xl font-semibold">Edit Profile</h4>
       <form
         onSubmit={handleSubmit(onSubmit)}
