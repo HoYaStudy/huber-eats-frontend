@@ -12,6 +12,7 @@ export const Button: React.FC<IButtonProps> = ({
   actionText,
 }) => (
   <button
+    role="button"
     className={`py-3 text-lg text-white font-medium transition-colors focus:outline-none ${
       canClick
         ? "bg-lime-600 hover:bg-lime-700"

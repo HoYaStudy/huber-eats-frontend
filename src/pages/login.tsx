@@ -9,7 +9,7 @@ import { Button } from "../components/button";
 import { authToken, isLoggedInVar } from "../apollo";
 import { LOCAL_STORAGE_TOKEN } from "../constants";
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation LoginMutation($loginInput: LoginInput!) {
     login(input: $loginInput) {
       ok
@@ -98,11 +98,6 @@ export const Login = () => {
           />
           {errors.password?.message && (
             <FormError errorMessage={errors.password?.message} />
-          )}
-          {errors.password?.type === "minLength" && (
-            <span className="font-medium text-red-500">
-              Password must be more than 10 chars.
-            </span>
           )}
           <Button canClick={isValid} loading={loading} actionText={"Log In"} />
           {loginMutationResult?.login.error && (
