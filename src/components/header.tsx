@@ -25,7 +25,7 @@ export const Header: React.FC = () => {
             </div>
           </Link>
           <span>
-            <Link to="/my-profile">
+            <Link to="/edit-profile">
               <FontAwesomeIcon icon={faUser} className="text-xl" />
             </Link>
           </span>

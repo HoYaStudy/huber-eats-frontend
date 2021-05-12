@@ -6,7 +6,7 @@ import { gql, useMutation } from "@apollo/client";
 import { FormError } from "../components/form-error";
 import { LoginMutation, LoginMutationVariables } from "../types/LoginMutation";
 import { Button } from "../components/button";
-import { authToken, isLoggedInVar } from "../apollo";
+import { authTokenVar, isLoggedInVar } from "../apollo";
 import { LOCAL_STORAGE_TOKEN } from "../constants";
 
 export const LOGIN_MUTATION = gql`
@@ -37,7 +37,7 @@ export const Login = () => {
     } = data;
     if (ok && token) {
       localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
-      authToken(token);
+      authTokenVar(token);
       isLoggedInVar(true);
     }
   };
@@ -74,7 +74,8 @@ export const Login = () => {
           <input
             {...register("email", {
               required: "Email is required",
-              pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              pattern:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             })}
             type="email"
             name="email"

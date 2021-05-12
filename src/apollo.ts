@@ -10,11 +10,11 @@ import { LOCAL_STORAGE_TOKEN } from "./constants";
 const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
 
 export const isLoggedInVar = makeVar(Boolean(token));
-export const authToken = makeVar(token);
+export const authTokenVar = makeVar(token);
 
 const httpLink = createHttpLink({ uri: "http://localhost:4000/graphql" });
 const authLink = setContext((_, { headers }) => {
-  return { headers: { ...headers, "x-jwt": token || "" } };
+  return { headers: { ...headers, "x-jwt": authTokenVar() || "" } };
 });
 
 export const client = new ApolloClient({
@@ -30,7 +30,7 @@ export const client = new ApolloClient({
           },
           token: {
             read() {
-              return authToken();
+              return authTokenVar();
             },
           },
         },

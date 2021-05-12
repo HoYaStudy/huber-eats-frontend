@@ -65,7 +65,7 @@ export const EditProfilePage = () => {
   return (
     <div className="mt-52 flex flex-col justify-center items-center">
       <Helmet>
-        <title>Edit Profile| hUber Eats</title>
+        <title>Edit Profile | hUber Eats</title>
       </Helmet>
       <h4 className="mb-3 text-2xl font-semibold">Edit Profile</h4>
       <form
@@ -74,7 +74,8 @@ export const EditProfilePage = () => {
       >
         <input
           {...register("email", {
-            pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            pattern:
+              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           })}
           className="input"
           type="email"
