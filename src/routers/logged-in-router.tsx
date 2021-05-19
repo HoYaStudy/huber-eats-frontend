@@ -1,34 +1,36 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useMe } from "../hooks/useMe";
 import { Header } from "../components/header";
 import { Restaurants } from "../pages/client/restaurants";
-import { useMe } from "../hooks/useMe";
 import { NotFound } from "../pages/404";
 import { ConfirmEmail } from "../pages/user/confirm-email";
 import { EditProfilePage } from "../pages/user/edit-profile";
 import { Search } from "../pages/client/search";
 import { CategoryPage } from "../pages/client/category";
 import { RestaurantPage } from "../pages/client/restaurant";
+import { AddRestaurant } from "../pages/owner/add-restaurants";
+import { MyRestaurantsPage } from "../pages/owner/my-restaurants";
+import { MyRestaurantPage } from "../pages/owner/my-restaurant";
+import { AddDish } from "../pages/owner/add-dish";
 
-const ClientRoutes = [
-  <Route key={1} path="/" exact>
-    <Restaurants />
-  </Route>,
-  <Route key={2} path="/confirm">
-    <ConfirmEmail />
-  </Route>,
-  <Route key={3} path="/edit-profile">
-    <EditProfilePage />
-  </Route>,
-  <Route key={4} path="/search">
-    <Search />
-  </Route>,
-  <Route key={5} path="/category/:slug">
-    <CategoryPage />
-  </Route>,
-  <Route key={6} path="/restaurants/:id">
-    <RestaurantPage />
-  </Route>,
+const commonRoutes = [
+  { path: "/confirm", component: <ConfirmEmail /> },
+  { path: "/edit-profile", component: <EditProfilePage /> },
+];
+
+const clientRoutes = [
+  { path: "/", component: <Restaurants /> },
+  { path: "/search", component: <Search /> },
+  { path: "/category/:slug", component: <CategoryPage /> },
+  { path: "/restaurants/:id", component: <RestaurantPage /> },
+];
+
+const ownerRoutes = [
+  { path: "/", component: <MyRestaurantsPage /> },
+  { path: "/add-restaurant", component: <AddRestaurant /> },
+  { path: "/restaurants/:id", component: <MyRestaurantPage /> },
+  { path: "/restaurants/:restaurantId/add-dish", component: <AddDish /> },
 ];
 
 export const LoggedInRouter = () => {
@@ -46,7 +48,23 @@ export const LoggedInRouter = () => {
     <Router>
       <Header />
       <Switch>
-        {data.whoami.role === "Client" && ClientRoutes}
+        {commonRoutes.map((route) => (
+          <Route key={route.path} path={route.path}>
+            {route.component}
+          </Route>
+        ))}
+        {data.whoami.role === "Client" &&
+          clientRoutes.map((route) => (
+            <Route exact key={route.path} path={route.path}>
+              {route.component}
+            </Route>
+          ))}
+        {data.whoami.role === "Owner" &&
+          ownerRoutes.map((route) => (
+            <Route exact key={route.path} path={route.path}>
+              {route.component}
+            </Route>
+          ))}
         <Route>
           <NotFound />
         </Route>

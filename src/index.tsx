@@ -8,13 +8,13 @@ import "./styles/styles.css";
 import { client } from "./apollo";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
+    <React.StrictMode>
       <HelmetProvider>
         <App />
       </HelmetProvider>
-    </ApolloProvider>
-  </React.StrictMode>,
+    </React.StrictMode>
+  </ApolloProvider>,
   document.getElementById("root")
 );
 
