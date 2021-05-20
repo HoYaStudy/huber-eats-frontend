@@ -1,5 +1,6 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import {
   VictoryAxis,
@@ -17,6 +18,11 @@ import {
 } from "../../fragments";
 import { MyRestaurant, MyRestaurantVariables } from "../../types/MyRestaurant";
 import { Dish } from "../../components/dish";
+import { useMe } from "../../hooks/useMe";
+import {
+  CreatePayment,
+  CreatePaymentVariables,
+} from "../../types/CreatePayment";
 
 export const MY_RESTAURANT_QUERY = gql`
   query MyRestaurant($input: MyRestaurantInput!) {
@@ -39,6 +45,15 @@ export const MY_RESTAURANT_QUERY = gql`
   ${ORDERS_FRAGMENT}
 `;
 
+const CREATE_PAYMENT_MUTATION = gql`
+  mutation CreatePayment($input: CreatePaymentInput!) {
+    createPayment(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
 interface IParams {
   id: string;
 }
@@ -49,10 +64,41 @@ export const MyRestaurantPage = () => {
     MY_RESTAURANT_QUERY,
     { variables: { input: { id: +id } } }
   );
-  console.log(`My Restaurant: ${data}`);
+  const onCompleted = (data: CreatePayment) => {
+    if (data.createPayment.ok) {
+      alert("Your restaurant is being promoted!");
+    }
+  };
+  const [CreatePaymentMutation, { loading }] = useMutation<
+    CreatePayment,
+    CreatePaymentVariables
+  >(CREATE_PAYMENT_MUTATION);
+  const { data: userData } = useMe();
+  const triggerPaddle = () => {
+    // @ts-ignore
+    window.Paddle.Setup({ vendor: 12345 });
+    // @ts-ignore
+    window.Paddle.Checkout.open({
+      product: 123456,
+      email: userData?.whoami.email,
+      successCallback: (data: any) => {
+        CreatePaymentMutation({
+          variables: {
+            input: { transactionId: data.checkout.id, restaurantId: +id },
+          },
+        });
+      },
+    });
+  };
 
   return (
     <div>
+      <Helmet>
+        <title>
+          {data?.myRestaurant.restaurant?.name || "Loading..."} | hUber Eats
+        </title>
+        <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+      </Helmet>
       <div
         className="  bg-gray-700  py-28 bg-center bg-cover"
         style={{
@@ -69,16 +115,20 @@ export const MyRestaurantPage = () => {
         >
           Add Dish &rarr;
         </Link>
-        <Link to={``} className=" text-white bg-lime-700 py-3 px-10">
+        <span
+          onClick={triggerPaddle}
+          className="text-white bg-lime-700 py-3 px-10 cursor-pointer"
+        >
           Buy Promotion &rarr;
-        </Link>
+        </span>
         <div className="mt-10">
           {data?.myRestaurant.restaurant?.menu.length === 0 ? (
             <h4 className="text-xl mb-5">Please upload a dish!</h4>
           ) : (
             <div className="mt-16 grid gap-x-5 gap-y-10 md:grid-cols-3">
-              {data?.myRestaurant.restaurant?.menu.map((dish) => (
+              {data?.myRestaurant.restaurant?.menu.map((dish, index) => (
                 <Dish
+                  key={index}
                   name={dish.name}
                   description={dish.description}
                   price={dish.price}

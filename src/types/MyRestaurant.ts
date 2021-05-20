@@ -53,7 +53,7 @@ export interface MyRestaurant_myRestaurant_restaurant {
   address: string;
   isPromoted: boolean;
   menu: MyRestaurant_myRestaurant_restaurant_menu[];
-  orders: MyRestaurant_myRestaurant_restaurant_orders[];
+  orders: MyRestaurant_myRestaurant_restaurant_orders[] | null;
 }
 
 export interface MyRestaurant_myRestaurant {
