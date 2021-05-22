@@ -12,11 +12,9 @@ describe("Edit Profile", () => {
 
   it("can change email", () => {
     user.intercept("POST", "http://localhost:4000/graphql", (req) => {
-      console.log(req.body && req.body);
       if (req.body?.operationName === "EditProfile") {
         req.body?.variables?.input?.email = "testClient@cypress.com";
       }
-      console.log(req.body && req.body);
     });
     user.visit("/edit-profile");
     user.findByPlaceholderText(/email/i).clear().type("newClient@cypress.com");
