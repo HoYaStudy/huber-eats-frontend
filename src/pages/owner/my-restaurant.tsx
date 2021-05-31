@@ -121,7 +121,7 @@ export const MyRestaurantPage = () => {
         <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
       </Helmet>
       <div
-        className="  bg-gray-700  py-28 bg-center bg-cover"
+        className="bg-gray-700  py-28 bg-center bg-cover"
         style={{
           backgroundImage: `url(${data?.myRestaurant.restaurant?.coverImg})`,
         }}
@@ -160,7 +160,7 @@ export const MyRestaurantPage = () => {
         </div>
         <div className="mt-20 mb-10">
           <h4 className="text-center text-2xl font-medium">Sales</h4>
-          <div className="  mt-10">
+          <div className="mt-10">
             <VictoryChart
               height={500}
               theme={VictoryTheme.material}

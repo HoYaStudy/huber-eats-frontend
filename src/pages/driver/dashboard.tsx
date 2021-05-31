@@ -120,7 +120,7 @@ export const Dashboard = () => {
           defaultZoom={16}
           draggable={true}
           defaultCenter={{ lat: 77, lng: 127 }}
-          bootstrapURLKeys={{ key: "AIzaSyBfVMnWENBCNyRB5Nvzg1apKFQkxeDKgys" }}
+          bootstrapURLKeys={{ key: "" }}
           onGoogleApiLoaded={onApiLoaded}
         >
           <Driver lat={driverCoords.lat} lng={driverCoords.lng} />
