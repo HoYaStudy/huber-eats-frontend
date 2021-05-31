@@ -13,10 +13,14 @@ import { AddRestaurant } from "../pages/owner/add-restaurants";
 import { MyRestaurantsPage } from "../pages/owner/my-restaurants";
 import { MyRestaurantPage } from "../pages/owner/my-restaurant";
 import { AddDish } from "../pages/owner/add-dish";
+import { Order } from "../pages/order";
+import { Dashboard } from "../pages/driver/dashboard";
+import { UserRole } from "../types/globalTypes";
 
 const commonRoutes = [
   { path: "/confirm", component: <ConfirmEmail /> },
   { path: "/edit-profile", component: <EditProfilePage /> },
+  { path: "/orders/:id", component: <Order /> },
 ];
 
 const clientRoutes = [
@@ -32,6 +36,8 @@ const ownerRoutes = [
   { path: "/restaurants/:id", component: <MyRestaurantPage /> },
   { path: "/restaurants/:restaurantId/add-dish", component: <AddDish /> },
 ];
+
+const driverRoutes = [{ path: "/", component: <Dashboard /> }];
 
 export const LoggedInRouter = () => {
   const { data, loading, error } = useMe();
@@ -53,14 +59,20 @@ export const LoggedInRouter = () => {
             {route.component}
           </Route>
         ))}
-        {data.whoami.role === "Client" &&
+        {data.whoami.role === UserRole.Client &&
           clientRoutes.map((route) => (
             <Route exact key={route.path} path={route.path}>
               {route.component}
             </Route>
           ))}
-        {data.whoami.role === "Owner" &&
+        {data.whoami.role === UserRole.Owner &&
           ownerRoutes.map((route) => (
+            <Route exact key={route.path} path={route.path}>
+              {route.component}
+            </Route>
+          ))}
+        {data.whoami.role === UserRole.Delivery &&
+          driverRoutes.map((route) => (
             <Route exact key={route.path} path={route.path}>
               {route.component}
             </Route>
