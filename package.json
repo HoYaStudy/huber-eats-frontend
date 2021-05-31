@@ -35,6 +35,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "tailwind:prodbuild": "NODE_ENV=production npm run tailwind:build",
     "tailwind:build": "tailwind build ./src/styles/tailwind.css -o ./src/styles/styles.css",
     "apollo:codegen": "rm -rf src/types && apollo client:codegen src/types --target=typescript --outputFlat",
     "start": "yarn apollo:codegen & yarn tailwind:build & react-scripts start",
